@@ -1,0 +1,51 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: jobs-backend
+    ports:
+      - "8000:8000"
+    environment:
+      APP_KEY: base64:fzVNY9U5w3oe+lPHsQac2R9S2rVWqJ3hE3xVkvkR3RU=
+      APP_ENV: local
+      APP_DEBUG: true
+      DB_CONNECTION: pgsql
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_DATABASE: jobs
+      DB_USERNAME: postgres
+      DB_PASSWORD: secret
+    volumes:
+      - ./backend:/var/www/html
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: jobs-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: "npm run dev"
+    depends_on:
+      - backend
+
+  db:
+    image: postgres:15
+    container_name: jobs-db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: jobs
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
