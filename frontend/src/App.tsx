@@ -1,25 +1,28 @@
-import { useState } from 'react'
-import './App.css'
+import React from 'react';
+import Header from './components/Header';
+import Hero from './components/Hero';
+import SectionForDevelopers from './components/SectionForDevelopers';
+import SectionForEmployers from './components/SectionForEmployers';
+import JobListings from './components/JobListings';
+import ViewAllJobsButton from './components/ViewAllJobsButton';
+import Footer from './components/Footer';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App: React.FC = () => {
   return (
     <div>
-      <p>Jazda kurva</p>
-
-      <button
-        onClick={() => {
-          setCount(count + 1)
-          console.log(count)
-
-        }
-        }
-      >Increment</button>
+      <Header />
+      <Hero />
+      <div className="py-4">
+        <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
+          <SectionForDevelopers />
+          <SectionForEmployers />
+        </div>
+      </div>
+      <JobListings />
+      <ViewAllJobsButton />
+      <Footer />
     </div>
+  );
+};
 
-
-  )
-}
-
-export default App
+export default App;

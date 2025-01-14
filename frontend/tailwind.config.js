@@ -1,8 +1,18 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['Roboto', 'sans-sefif']
+      },
+      gridTemplateColumns: {
+        '70/30': '70% 28%'
+      }
+    },
   },
   plugins: [],
-};
+}
