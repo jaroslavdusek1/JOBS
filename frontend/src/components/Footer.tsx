@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
                 {/* Main Footer Content */}
                 <div className="mb-6">
                     <h3 className="text-xl font-semibold text-gray-200 mb-2">
-                        React Jobs
+                        Jobs.
                     </h3>
                     <p className="text-sm text-gray-400">
                         Find your dream job or the perfect developer for your team.
@@ -42,7 +42,7 @@ const Footer: React.FC = () => {
                         href="https://facebook.com"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-gray-400 hover:text-indigo-500 transition-all"
+                        className="text-indigo-500 hover:text-indigo-500 transition-all"
                     >
                         <i className="fab fa-facebook-f"></i>
                     </a>
@@ -50,7 +50,7 @@ const Footer: React.FC = () => {
                         href="https://twitter.com"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-gray-400 hover:text-indigo-500 transition-all"
+                        className="text-indigo-500 hover:text-gray-400 transition-all"
                     >
                         <i className="fab fa-twitter"></i>
                     </a>
@@ -58,7 +58,7 @@ const Footer: React.FC = () => {
                         href="https://linkedin.com"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-gray-400 hover:text-indigo-500 transition-all"
+                        className="text-indigo-500 hover:text-gray-400 transition-all"
                     >
                         <i className="fab fa-linkedin-in"></i>
                     </a>
@@ -67,7 +67,7 @@ const Footer: React.FC = () => {
                 {/* Copyright */}
                 <div className="mt-6">
                     <p className="text-xs text-gray-500">
-                        &copy; {new Date().getFullYear()} React Jobs. All rights reserved.
+                        &copy; {new Date().getFullYear()} Jobs. All rights reserved.
                     </p>
                 </div>
             </div>

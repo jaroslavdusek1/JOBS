@@ -8,7 +8,8 @@ const Header: React.FC = () => {
                     {/* Logo */}
                     <a className="flex items-center" href="/index.html">
                         <span className="text-gray-100 text-2xl font-bold ml-3">
-                            Jobs
+                        <i className="fas fa-user-tie mr-2"></i>
+                            Jobs.
                         </span>
                     </a>
 
