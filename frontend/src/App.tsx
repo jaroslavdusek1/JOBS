@@ -1,28 +1,33 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
-import Hero from './components/Hero';
-import SectionForDevelopers from './components/SectionForDevelopers';
-import SectionForEmployers from './components/SectionForEmployers';
-import JobListings from './components/JobListings';
-import ViewAllJobsButton from './components/ViewAllJobsButton';
 import Footer from './components/Footer';
+import Home from './components/pages/Home';
+import AddJob from './components/pages/AddJob';
+import Login from './components/pages/Login';
+import Profile from './components/pages/Profile';
+import JobDetail from './components/pages/JobDetail';
+import Register from './components/pages/Register';
 
 const App: React.FC = () => {
-  return (
-    <div>
-      <Header />
-      <Hero />
-      <div className="py-4">
-        <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
-          <SectionForDevelopers />
-          <SectionForEmployers />
-        </div>
-      </div>
-      <JobListings />
-      <ViewAllJobsButton />
-      <Footer />
-    </div>
-  );
+    return (
+        <Router>
+            <div className="flex flex-col min-h-screen">
+                <Header />
+                <main className="flex-grow">
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/add-job" element={<AddJob />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/profile" element={<Profile />} />
+                        <Route path="/register" element={<Register />} />
+                        <Route path="/job-detail/:id" element={<JobDetail />} />
+                    </Routes>
+                </main>
+                <Footer />
+            </div>
+        </Router>
+    );
 };
 
 export default App;

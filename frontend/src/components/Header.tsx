@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Header: React.FC = () => {
     return (
@@ -6,46 +7,53 @@ const Header: React.FC = () => {
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 items-center justify-between">
                     {/* Logo */}
-                    <a className="flex items-center" href="/index.html">
-                        <span className="text-gray-100 text-2xl font-bold ml-3">
-                        <i className="fas fa-user-tie mr-2"></i>
+                    <Link to="/" className="flex items-center">
+                        <span className="text-gray-100 text-2xl font-bold flex items-center">
+                            <i className="fas fa-user-tie mr-2 text-indigo-400"></i>
                             Jobs.
                         </span>
-                    </a>
+                    </Link>
 
                     {/* Navigation Links */}
                     <div className="flex items-center space-x-4">
-                        <a
-                            href="/index.html"
-                            className="text-indigo-300 px-3 py-2 rounded-md text-sm font-medium transition-all hover:bg-gray-600 hover:text-white"
+                        <Link
+                            to="/"
+                            className="text-indigo-300 px-3 py-2 rounded-md text-sm font-medium transition-all hover:bg-gray-700 hover:text-white"
                         >
                             Home
-                        </a>
-                        <a
-                            href="/jobs.html"
-                            className="text-indigo-300 px-3 py-2 rounded-md text-sm font-medium transition-all hover:bg-gray-600 hover:text-white"
+                        </Link>
+                        <Link
+                            to="/jobs"
+                            className="text-indigo-300 px-3 py-2 rounded-md text-sm font-medium transition-all hover:bg-gray-700 hover:text-white"
                         >
                             Jobs
-                        </a>
-                        <a
-                            href="/add-job.html"
-                            className="text-indigo-300 px-3 py-2 rounded-md text-sm font-medium transition-all hover:bg-gray-600 hover:text-white"
+                        </Link>
+                        <Link
+                            to="/add-job"
+                            className="text-indigo-300 px-3 py-2 rounded-md text-sm font-medium transition-all hover:bg-gray-700 hover:text-white"
                         >
                             Add Job
-                        </a>
-                        {/* Log In Button */}
-                        <a
-                            href="/login"
-                            className="w-20 h-10 flex items-center justify-center rounded-full bg-indigo-600 text-zinc-50 font-medium shadow-md hover:bg-indigo-700 transition-all"
-                            title="Log In"
-                        >
-                            Log In
-                        </a>
+                        </Link>
+                        {/* Login and Register */}
+                        <div className="flex space-x-2">
+                            <Link
+                                to="/login"
+                                className="w-24 h-10 flex items-center justify-center rounded-full bg-indigo-600 text-white font-medium shadow-md hover:bg-indigo-700 transition-all"
+                            >
+                                Log In
+                            </Link>
+                            <Link
+                                to="/register"
+                                className="w-24 h-10 flex items-center justify-center rounded-full bg-indigo-600 text-white font-medium shadow-md hover:bg-indigo-700 transition-all"
+                            >
+                                Register
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>
             {/* Jemný vícevrstvý stín pod headerem */}
-            <div className="h-2 bg-gradient-to-r from-gray-800 via-gray-700 to-gray-600 shadow-md"></div>
+            <div className="h-2 bg-gradient-to-r from-gray-800 via-gray-700 to-gray-600 shadow-inner"></div>
         </nav>
     );
 };
