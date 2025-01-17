@@ -28,13 +28,12 @@ class RouteServiceProvider extends ServiceProvider
 
         // Register routes, loads routing from routes/api.php, add prefix /api, apply middleware
         $this->routes(function () {
-            Route::prefix('api')
-                ->middleware('api')
-                ->namespace($this->namespace)
+            Route::middleware('api')
+                // ->namespace($this->namespace)
                 ->group(base_path('routes/api.php'));
 
             Route::middleware('web')
-                ->namespace($this->namespace)
+                // ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
         });
     }
