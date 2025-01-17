@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Used port
-EXPOSE 5173
+EXPOSE 3000
 
 # Default cmd
 CMD ["npm", "run", "dev"]
