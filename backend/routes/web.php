@@ -7,6 +7,7 @@ Route::get('/', function () {
 });
 
 Route::get('/test1', function () {
+    // dd('Reached /test1 route!');
     return response()->json(['message' => 'API working']);
 });
 
