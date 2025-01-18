@@ -13,3 +13,7 @@ Route::get('/test1', function () {
 Route::get('/test2', function () {
     return response()->json(['message' => 'OK']);
 });
+
+Route::get('/test3', function () {
+    return response()->json(['message' => 'Hello from /test']);
+});
