@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
+import Message from '../Message';
+import { User } from '../../types/User'; // Import User interface
 
 const Register: React.FC = () => {
-    const [formData, setFormData] = useState({
+    const initialFormData: User = {
         name: '',
         surname: '',
         username: '',
         email: '',
         password: '',
-        confirmPassword: '',
-    });
+        password_confirmation: ''
+    };
+
+    const [formData, setFormData] = useState<User>(initialFormData);
+    const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' | 'info' } | null>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -17,13 +22,16 @@ const Register: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (formData.password !== formData.confirmPassword) {
-            alert('Passwords do not match');
+        if (formData.password !== formData.password_confirmation) {
+            console.log("asf")
+            setMessage({ text: 'Passwords do not match', type: 'error' });
             return;
         }
 
+        console.log(formData);
+
         try {
-            const response = await fetch('http://localhost:8000/api/register', {
+            const response = await fetch('http://localhost:8000/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -33,21 +41,34 @@ const Register: React.FC = () => {
 
             if (response.ok) {
                 const data = await response.json();
-                alert('User registered successfully');
+                setMessage({ text: 'User registered successfully', type: 'success' });
+
+                // Clear form
+                setFormData(initialFormData);
+
                 console.log(data);
             } else {
                 const error = await response.json();
-                alert(`Registration failed: ${error.message}`);
+                setMessage({ text: `Registration failed due to: ${error.message}`, type: 'error' });
             }
         } catch (error) {
-            console.error('Error:', error);
-            alert(`Something went wrong ${error.message}`);
+            console.error('Error:', error.message);
+            setMessage({ text: `Something REALLY WEIRD just happened: ${error.message}`, type: 'error' });
         }
     };
 
     return (
         <div className="max-w-md mx-auto p-6 bg-gray-800 text-gray-100 rounded-lg shadow-lg mt-10">
             <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
+
+            {message && (
+                <Message
+                    message={message.text}
+                    type={message.type}
+                    onClose={() => setMessage(null)}
+                />
+            )}
+
             <form onSubmit={handleSubmit}>
                 <input
                     type="text"
@@ -96,8 +117,8 @@ const Register: React.FC = () => {
                 />
                 <input
                     type="password"
-                    name="confirmPassword"
-                    value={formData.confirmPassword}
+                    name="password_confirmation"
+                    value={formData.password_confirmation || ''}
                     onChange={handleChange}
                     placeholder="Confirm Password"
                     className="w-full mb-6 px-3 py-2 rounded bg-gray-700 text-white"
@@ -110,15 +131,6 @@ const Register: React.FC = () => {
                     Register
                 </button>
             </form>
-            <p className="text-center mt-4 text-gray-400 text-sm">
-                Already have an account?{' '}
-                <a
-                    href="/login"
-                    className="text-indigo-400 hover:text-indigo-500 transition-all"
-                >
-                    Log In
-                </a>
-            </p>
         </div>
     );
 };

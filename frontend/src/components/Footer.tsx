@@ -42,7 +42,7 @@ const Footer: React.FC = () => {
                         href="https://facebook.com"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-indigo-500 hover:text-indigo-500 transition-all"
+                        className="text-indigo-500 hover:text-gray-400 transition-all"
                     >
                         <i className="fab fa-facebook-f"></i>
                     </a>
