@@ -1,34 +1,74 @@
 import React, { useState } from 'react';
 import Message from '../Message';
-import { User } from '../../types/User'; // Import User interface
+import { User } from '../../types/User';
+import { Message as MessageType } from '../../types/Message';
+import { sanitizeInput, validateForm } from '../../utils/validations';
+import { useNavigate } from 'react-router-dom';
 
 const Register: React.FC = () => {
+    // Navigate init
+    const navigate = useNavigate();
+
+    /**
+     * Initial state for form data
+     * 
+     * @type {User}
+     */
     const initialFormData: User = {
         name: '',
         surname: '',
         username: '',
         email: '',
         password: '',
-        password_confirmation: ''
+        password_confirmation: '',
     };
 
     const [formData, setFormData] = useState<User>(initialFormData);
-    const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' | 'info' } | null>(null);
 
+    /** 
+     * Message state to display feedback to the user
+     * 
+     * @type {MessageType}
+     */
+    const [message, setMessage] = useState<MessageType>(null);
+
+    /**
+     * Handles input change and sanitizes input value.
+     * 
+     * @function
+     * @param {React.ChangeEvent<HTMLInputElement>} e - The input change event.
+     */
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+
+        // Allow special chars only for passwords
+        const allowSpecialChars = name === 'password' || name === 'password_confirmation';
+
+        // Input sanitization
+        const sanitizedValue = sanitizeInput(value, allowSpecialChars);
+
+        setFormData({ ...formData, [name]: sanitizedValue });
     };
 
+
+    /**
+     * Handles form submission, validates data, and communicates with the backend.
+     * 
+     * @async
+     * @function
+     * @param {React.FormEvent} e - The form submit event.
+     * @returns {Promise<void>}
+     */
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (formData.password !== formData.password_confirmation) {
-            console.log("asf")
-            setMessage({ text: 'Passwords do not match', type: 'error' });
+        // Validate form inputs
+        const { valid, errors } = validateForm(formData);
+
+        if (!valid) {
+            setMessage({ text: Object.values(errors).join(', '), type: 'error' });
             return;
         }
-
-        console.log(formData);
 
         try {
             const response = await fetch('http://localhost:8000/register', {
@@ -39,28 +79,29 @@ const Register: React.FC = () => {
                 body: JSON.stringify(formData),
             });
 
+            const rawResponse = await response.json();
+            console.log('Raw Response:', rawResponse);
+
             if (response.ok) {
-                const data = await response.json();
+                // Success (status 200 - 299)
                 setMessage({ text: 'User registered successfully', type: 'success' });
-
-                // Clear form
                 setFormData(initialFormData);
-
-                console.log(data);
+                setTimeout(() => navigate('/login'), 3000);
+            } else if (rawResponse.error) {
+                // If the response includes key "error"
+                setMessage({ text: rawResponse.error, type: 'error' });
             } else {
-                const error = await response.json();
-                setMessage({ text: `Registration failed due to: ${error.message}`, type: 'error' });
+                // Unexpected response's format 
+                setMessage({ text: 'Something went wrong. Please try again.', type: 'error' });
             }
         } catch (error) {
-            console.error('Error:', error.message);
-            setMessage({ text: `Something REALLY WEIRD just happened: ${error.message}`, type: 'error' });
+            setMessage({ text: 'Unable to connect to the server. Please try again.', type: 'error' });
         }
     };
 
     return (
         <div className="max-w-md mx-auto p-6 bg-gray-800 text-gray-100 rounded-lg shadow-lg mt-10">
             <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
-
             {message && (
                 <Message
                     message={message.text}
@@ -69,6 +110,7 @@ const Register: React.FC = () => {
                 />
             )}
 
+            {/* Form */}
             <form onSubmit={handleSubmit}>
                 <input
                     type="text"
