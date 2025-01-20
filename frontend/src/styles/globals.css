@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* Container styles */
+.form-container {
+    @apply max-w-md mx-auto p-6 bg-gray-800 text-gray-100 rounded-lg shadow-lg mt-10;
+}
+
+/* Heading styles */
+.form-heading {
+    @apply text-2xl font-bold mb-6 text-center;
+}
+
+/* Message styles */
+.form-message {
+    @apply mb-4 p-2 text-white rounded;
+}
+
+.form-message-error {
+    @apply bg-red-500;
+}
+
+.form-message-success {
+    @apply bg-green-500;
+}
+
+/* Input field styles */
+.form-input {
+    @apply w-full mb-4 px-3 py-2 rounded bg-gray-700 text-white;
+}
+
+/* Button styles */
+.form-button {
+    @apply w-full bg-indigo-600 py-2 rounded shadow-md hover:bg-indigo-700 transition-all;
+}
+
+/* Link container styles */
+.link-container {
+    @apply text-center mt-4 text-gray-400 text-sm;
+}
+
+/* Link styles */
+.link {
+    @apply text-indigo-400 hover:text-indigo-500 transition-all;
+}

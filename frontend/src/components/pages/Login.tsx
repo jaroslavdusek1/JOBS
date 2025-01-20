@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { sanitizeInput } from '../../utils/validations';
 import { Message as MessageType } from '../../types/Message'
+import { API_BASE_URL, ROUTE_HOME, DEFAULT_HEADERS, INTERNAL_ERROR_500, LOGIN_FAILED, LOGIN_SUCCESS, LOGIN_TOKEN_ERROR, LOGIN_VALIDATION_ERROR } from '../../constants/constants';
 
 const Login: React.FC = () => {
     const navigate = useNavigate();
@@ -18,18 +19,16 @@ const Login: React.FC = () => {
 
         // Basic validation
         if (!email || !password) {
-            setMessage({ text: 'Email and password are required.', type: 'error' });
+            setMessage({ text: LOGIN_VALIDATION_ERROR, type: 'error' });
             return;
         }
 
         console.log("25", JSON.stringify({ email: sanitizeInput(email), password }));
 
         try {
-            const response = await fetch('http://localhost:8000/login', {
+            const response = await fetch(`${API_BASE_URL}/login`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: DEFAULT_HEADERS,
                 body: JSON.stringify({ email: sanitizeInput(email), password }),
             });
 
@@ -39,60 +38,64 @@ const Login: React.FC = () => {
             console.log('Response Data:', data);
 
             if (response.ok) {
-                setMessage({ text: 'Login successful', type: 'success' });
-                setToken(data.token); // Save token to context
+                setMessage({ text: LOGIN_SUCCESS, type: 'success' });
+
+                // Validate and save token to context
+                data.token ? setToken(data.token) : setMessage({ text: data.error || LOGIN_TOKEN_ERROR, type: 'error' });
+
+                // Empty inputs
                 setEmail('');
                 setPassword('');
-                // Navigate to dashboard
-                setTimeout(() => navigate('/'), 2000);
+
+                // Navigate to home/dashboard
+                setTimeout(() => navigate(ROUTE_HOME), 2000);
             } else {
-                setMessage({ text: data.error || 'Login failed. Please try again.', type: 'error' });
+                setMessage({ text: data.error || LOGIN_FAILED, type: 'error' });
             }
         } catch (error) {
-            setMessage({ text: 'Unable to connect to the server.', type: 'error' });
+            setMessage({ text: INTERNAL_ERROR_500, type: 'error' });
         }
-
     };
 
     return (
-        <div className="max-w-md mx-auto p-6 bg-gray-800 text-gray-100 rounded-lg shadow-lg mt-10">
-            <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+        <div className="form-container">
+            <h2 className="form-heading">Login</h2>
             {message && (
                 <div
-                    className={`mb-4 p-2 text-white rounded ${message.type === 'error' ? 'bg-red-500' : 'bg-green-500'
+                    className={`form-message ${message.type === 'error' ? 'form-message-error' : 'form-message-success'
                         }`}
                 >
                     {message.text}
                 </div>
             )}
-            
+
             <form onSubmit={handleSubmit}>
                 <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Email"
-                    className="w-full mb-4 px-3 py-2 rounded bg-gray-700 text-white"
+                    className="form-input"
                 />
                 <input
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Password"
-                    className="w-full mb-6 px-3 py-2 rounded bg-gray-700 text-white"
+                    className="form-input"
                 />
                 <button
                     type="submit"
-                    className="w-full bg-indigo-600 py-2 rounded shadow-md hover:bg-indigo-700 transition-all"
+                    className="form-button"
                 >
                     Log In
                 </button>
             </form>
-            <p className="text-center mt-4 text-gray-400 text-sm">
+            <p className="link-container">
                 Don't have an account?{' '}
                 <a
                     href="/register"
-                    className="text-indigo-400 hover:text-indigo-500 transition-all"
+                    className="link"
                 >
                     Register
                 </a>

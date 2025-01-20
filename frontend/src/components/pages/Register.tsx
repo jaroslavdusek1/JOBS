@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import Message from '../Message';
+// import Message from '../Message';
 import { User } from '../../types/User';
 import { Message as MessageType } from '../../types/Message';
 import { sanitizeInput, validateForm } from '../../utils/validations';
 import { useNavigate } from 'react-router-dom';
-import { API_BASE_URL, DEFAULT_HEADERS, ERROR_500, ERROR_MESSAGE, REGISTER_USER_SUCCESS, ROUTE_LOGIN } from '../../constants/constants';
+import { API_BASE_URL, DEFAULT_HEADERS, ERROR_MESSAGE, INTERNAL_ERROR_500, REGISTER_USER_SUCCESS, ROUTE_LOGIN } from '../../constants/constants';
 
 const Register: React.FC = () => {
     // Navigate init
@@ -94,7 +94,7 @@ const Register: React.FC = () => {
                 setMessage({ text: ERROR_MESSAGE, type: 'error' });
             }
         } catch (error) {
-            setMessage({ text: ERROR_500, type: 'error' });
+            setMessage({ text: INTERNAL_ERROR_500, type: 'error' });
         }
     };
 
