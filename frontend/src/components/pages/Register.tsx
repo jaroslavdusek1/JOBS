@@ -4,6 +4,7 @@ import { User } from '../../types/User';
 import { Message as MessageType } from '../../types/Message';
 import { sanitizeInput, validateForm } from '../../utils/validations';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL, DEFAULT_HEADERS, ERROR_500, ERROR_MESSAGE, REGISTER_USER_SUCCESS, ROUTE_LOGIN } from '../../constants/constants';
 
 const Register: React.FC = () => {
     // Navigate init
@@ -71,11 +72,9 @@ const Register: React.FC = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:8000/register', {
+            const response = await fetch(`${API_BASE_URL}/register`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: DEFAULT_HEADERS,
                 body: JSON.stringify(formData),
             });
 
@@ -84,30 +83,32 @@ const Register: React.FC = () => {
 
             if (response.ok) {
                 // Success (status 200 - 299)
-                setMessage({ text: 'User registered successfully', type: 'success' });
+                setMessage({ text: REGISTER_USER_SUCCESS, type: 'success' });
                 setFormData(initialFormData);
-                setTimeout(() => navigate('/login'), 3000);
+                setTimeout(() => navigate(ROUTE_LOGIN), 3000);
             } else if (rawResponse.error) {
                 // If the response includes key "error"
                 setMessage({ text: rawResponse.error, type: 'error' });
             } else {
                 // Unexpected response's format 
-                setMessage({ text: 'Something went wrong. Please try again.', type: 'error' });
+                setMessage({ text: ERROR_MESSAGE, type: 'error' });
             }
         } catch (error) {
-            setMessage({ text: 'Unable to connect to the server. Please try again.', type: 'error' });
+            setMessage({ text: ERROR_500, type: 'error' });
         }
     };
 
     return (
-        <div className="max-w-md mx-auto p-6 bg-gray-800 text-gray-100 rounded-lg shadow-lg mt-10">
-            <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
+        <div className="form-container">
+            <h2 className="form-heading">Register</h2>
+
             {message && (
-                <Message
-                    message={message.text}
-                    type={message.type}
-                    onClose={() => setMessage(null)}
-                />
+                <div
+                    className={`form-message ${message.type === 'error' ? 'form-message-error' : 'form-message-success'
+                        }`}
+                >
+                    {message.text}
+                </div>
             )}
 
             {/* Form */}
@@ -118,7 +119,7 @@ const Register: React.FC = () => {
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="Name"
-                    className="w-full mb-4 px-3 py-2 rounded bg-gray-700 text-white"
+                    className="form-input"
                     required
                 />
                 <input
@@ -127,7 +128,7 @@ const Register: React.FC = () => {
                     value={formData.surname}
                     onChange={handleChange}
                     placeholder="Surname"
-                    className="w-full mb-4 px-3 py-2 rounded bg-gray-700 text-white"
+                    className="form-input"
                     required
                 />
                 <input
@@ -136,7 +137,7 @@ const Register: React.FC = () => {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="Email"
-                    className="w-full mb-4 px-3 py-2 rounded bg-gray-700 text-white"
+                    className="form-input"
                     required
                 />
                 <input
@@ -145,7 +146,7 @@ const Register: React.FC = () => {
                     value={formData.username}
                     onChange={handleChange}
                     placeholder="Username"
-                    className="w-full mb-4 px-3 py-2 rounded bg-gray-700 text-white"
+                    className="form-input"
                     required
                 />
                 <input
@@ -154,7 +155,7 @@ const Register: React.FC = () => {
                     value={formData.password}
                     onChange={handleChange}
                     placeholder="Password"
-                    className="w-full mb-4 px-3 py-2 rounded bg-gray-700 text-white"
+                    className="form-input"
                     required
                 />
                 <input
@@ -163,18 +164,16 @@ const Register: React.FC = () => {
                     value={formData.password_confirmation || ''}
                     onChange={handleChange}
                     placeholder="Confirm Password"
-                    className="w-full mb-6 px-3 py-2 rounded bg-gray-700 text-white"
+                    className="form-input"
                     required
                 />
-                <button
-                    type="submit"
-                    className="w-full bg-indigo-600 py-2 rounded shadow-md hover:bg-indigo-700 transition-all"
-                >
+                <button type="submit" className="form-button">
                     Register
                 </button>
             </form>
         </div>
     );
-};
+}
+
 
 export default Register;

@@ -65,6 +65,7 @@ const Login: React.FC = () => {
                     {message.text}
                 </div>
             )}
+            
             <form onSubmit={handleSubmit}>
                 <input
                     type="email"

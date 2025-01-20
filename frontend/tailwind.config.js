@@ -7,12 +7,15 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Roboto', 'sans-sefif']
+        sans: ['Roboto', 'sans-serif'],
       },
       gridTemplateColumns: {
-        '70/30': '70% 28%'
-      }
+        '70/30': '70% 30%'
+      },
     },
   },
-  plugins: [],
-}
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+};

@@ -1,0 +1,25 @@
+/**
+ * 
+ */
+export const API_BASE_URL = 'http://localhost:8000';
+export const TOKEN_STORAGE_KEY = 'auth_token';
+
+// HTTP headers
+export const DEFAULT_HEADERS = {
+    'Content-Type': 'application/json',
+};
+
+// Messages
+export const SUCCESS_MESSAGE = 'Operation completed successfully!';
+export const ERROR_MESSAGE = 'Something went wrong. Please try again.';
+export const VALIDATION_ERROR_MESSAGE = 'Please fill out all required fields correctly.';
+export const ERROR_500 = 'Unable to connect to the server. Please try again.';
+export const REGISTER_USER_SUCCESS = 'User registered successfully';
+
+// Regex patterns
+export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const USERNAME_REGEX = /^[a-zA-Z0-9_]+$/;
+
+// Routes
+export const ROUTE_LOGIN = '/login';
+

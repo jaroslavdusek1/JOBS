@@ -62,14 +62,14 @@ class AuthController extends Controller
 
             \Log::info('Validated data:', $validated);
 
-            // Získání uživatele podle emailu
+            // Get user by email
             $user = User::where('email', $validated['email'])->first();
 
             if (!$user || !\Hash::check($validated['password'], $user->password)) {
                 return response()->json(['error' => 'Invalid credentials'], 401);
             }
 
-            // Vytvoření tokenu
+            // Create token
             $token = $user->createToken('auth_token')->plainTextToken;
 
             \Log::info('Generated token:', ['token' => $token]);
