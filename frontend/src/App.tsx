@@ -8,25 +8,28 @@ import Login from './components/pages/Login';
 import Profile from './components/pages/Profile';
 import JobDetail from './components/pages/JobDetail';
 import Register from './components/pages/Register';
+import { AuthProvider } from './context/AuthContext';
 
 const App: React.FC = () => {
     return (
-        <Router>
-            <div className="flex flex-col min-h-screen">
-                <Header />
-                <main className="flex-grow">
-                    <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/add-job" element={<AddJob />} />
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/profile" element={<Profile />} />
-                        <Route path="/register" element={<Register />} />
-                        <Route path="/job-detail/:id" element={<JobDetail />} />
-                    </Routes>
-                </main>
-                <Footer />
-            </div>
-        </Router>
+        <AuthProvider>
+            <Router>
+                <div className="flex flex-col min-h-screen">
+                    <Header />
+                    <main className="flex-grow">
+                        <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/add-job" element={<AddJob />} />
+                            <Route path="/login" element={<Login />} />
+                            <Route path="/profile" element={<Profile />} />
+                            <Route path="/register" element={<Register />} />
+                            <Route path="/job-detail/:id" element={<JobDetail />} />
+                        </Routes>
+                    </main>
+                    <Footer />
+                </div>
+            </Router>
+        </AuthProvider>
     );
 };
 

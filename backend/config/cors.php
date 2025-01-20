@@ -13,7 +13,7 @@ return [
     */
 
     // Define path pro CORS
-    'paths' => ['api/*', 'sanctum/csrf-cookie', 'register'],
+    'paths' => ['api/*', 'sanctum/csrf-cookie', 'register', 'login'],
 
     // Allowed HTTP methods
     'allowed_methods' => ['*'],

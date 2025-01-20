@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Services\AuthService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -53,14 +54,31 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        $validated = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string',
-        ]);
+        try {
+            $validated = $request->validate([
+                'email' => 'required|email',
+                'password' => 'required|string',
+            ]);
 
-        $token = $this->authService->login($validated);
+            \Log::info('Validated data:', $validated);
 
-        return response()->json(['message' => 'Login successful', 'token' => $token], 200);
+            // Získání uživatele podle emailu
+            $user = User::where('email', $validated['email'])->first();
+
+            if (!$user || !\Hash::check($validated['password'], $user->password)) {
+                return response()->json(['error' => 'Invalid credentials'], 401);
+            }
+
+            // Vytvoření tokenu
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            \Log::info('Generated token:', ['token' => $token]);
+
+            return response()->json(['message' => 'Login successful', 'token' => $token], 200);
+        } catch (\Throwable $e) {
+            \Log::error('Login error:', ['error' => $e->getMessage()]);
+            return response()->json(['error' => 'Server error'], 500);
+        }
     }
 
     /**

@@ -64,6 +64,7 @@ class Kernel extends HttpKernel
     // Turn off for there routes
     protected $except = [
         '/register',
+        '/login'
     ];
     
 }

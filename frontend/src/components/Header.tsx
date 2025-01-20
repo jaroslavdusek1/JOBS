@@ -22,12 +22,14 @@ const Header: React.FC = () => {
                         >
                             Home
                         </Link>
-                        <Link
+                        
+                        {/* <Link
                             to="/jobs"
                             className="text-indigo-300 px-3 py-2 rounded-md text-sm font-medium transition-all hover:bg-gray-700 hover:text-white"
                         >
                             Jobs
-                        </Link>
+                        </Link> */}
+
                         <Link
                             to="/add-job"
                             className="text-indigo-300 px-3 py-2 rounded-md text-sm font-medium transition-all hover:bg-gray-700 hover:text-white"
@@ -52,7 +54,7 @@ const Header: React.FC = () => {
                     </div>
                 </div>
             </div>
-            {/* Jemný vícevrstvý stín pod headerem */}
+            {/* Shadow below the header */}
             <div className="h-2 bg-gradient-to-r from-gray-800 via-gray-700 to-gray-600 shadow-inner"></div>
         </nav>
     );
