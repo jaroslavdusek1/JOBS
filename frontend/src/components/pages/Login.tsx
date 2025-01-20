@@ -1,19 +1,37 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { sanitizeInput } from '../../utils/validations';
+import { sanitizeInput, isValidEmail } from '../../utils/validations';
 import { Message as MessageType } from '../../types/Message'
-import { API_BASE_URL, ROUTE_HOME, DEFAULT_HEADERS, INTERNAL_ERROR_500, LOGIN_FAILED, LOGIN_SUCCESS, LOGIN_TOKEN_ERROR, LOGIN_VALIDATION_ERROR } from '../../constants/constants';
+import { API_BASE_URL, ROUTE_HOME, DEFAULT_HEADERS, INTERNAL_ERROR_500, LOGIN_FAILED, LOGIN_SUCCESS, LOGIN_TOKEN_ERROR, LOGIN_VALIDATION_ERROR, ERROR_INVALID_EMAIL } from '../../constants/constants';
 
 const Login: React.FC = () => {
     const navigate = useNavigate();
-    const { setToken } = useAuth();
+    const { setToken } = useAuth(); // Access authentication context
 
     // Form state
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [message, setMessage] = useState<MessageType>(null);
 
+    /**
+     * Handles email input change with sanitization.
+     * 
+     * @function
+     * @param {React.ChangeEvent<HTMLInputElement>} e - The input change event.
+     */
+    const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const sanitizedValue = sanitizeInput(e.target.value);
+        setEmail(sanitizedValue);
+    };
+
+    /**
+     * Handles form submission for login.
+     * Sends login credentials to the backend and processes the response.
+     * 
+     * @function
+     * @param {React.FormEvent} e - The form submission event.
+     */
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -23,7 +41,10 @@ const Login: React.FC = () => {
             return;
         }
 
-        console.log("25", JSON.stringify({ email: sanitizeInput(email), password }));
+        if (!isValidEmail(email)) {
+            setMessage({ text: ERROR_INVALID_EMAIL, type: 'error' });
+            return;
+        }
 
         try {
             const response = await fetch(`${API_BASE_URL}/login`, {
@@ -32,11 +53,7 @@ const Login: React.FC = () => {
                 body: JSON.stringify({ email: sanitizeInput(email), password }),
             });
 
-            console.log('Response Status:', response.status);
-
             const data = await response.json();
-            console.log('Response Data:', data);
-
             if (response.ok) {
                 setMessage({ text: LOGIN_SUCCESS, type: 'success' });
 
@@ -73,7 +90,7 @@ const Login: React.FC = () => {
                 <input
                     type="email"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={handleEmailChange} // Sanitize
                     placeholder="Email"
                     className="form-input"
                 />

@@ -19,7 +19,7 @@ export const LOGIN_FAILED = 'Login failed. Please try again.';
 export const LOGIN_VALIDATION_ERROR = 'Email and password are required.'
 export const LOGIN_TOKEN_ERROR = 'No token found.'
 
-// src/utils/validations.ts
+// Validations
 export const ERROR_NAME_REQUIRED = 'Name is required';
 export const ERROR_SURNAME_REQUIRED = 'Surname is required';
 export const ERROR_USERNAME_REQUIRED = 'Username is required';

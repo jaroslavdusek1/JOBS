@@ -1,15 +1,17 @@
 import React, { createContext, useState, useContext, ReactNode } from 'react';
+import { AuthState } from '../types/Context'
 
-// Auth context state interface
-interface AuthState {
-    token: string | null;
-    setToken: (token: string | null) => void;
-}
-
-// Default context
+// Create an authentication context
 const AuthContext = createContext<AuthState | undefined>(undefined);
 
-// Auth provider
+/**
+ * Provides authentication context to child components.
+ * Includes the `token` state and `setToken` function.
+ * 
+ * @param {Object} props - The component props.
+ * @param {React.ReactNode} props.children - Child components wrapped by the provider.
+ * @returns {JSX.Element} The context provider component.
+ */
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [token, setToken] = useState<string | null>(null);
 
@@ -20,7 +22,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     );
 };
 
-// Hook for using AuthContext
+/**
+ * Custom hook to access authentication context.
+ * Throws an error if used outside of `AuthProvider`.
+ * 
+ * @throws {Error} If called outside `AuthProvider`.
+ * @returns {AuthContextType} The context value including `token` and `setToken`.
+ */
 export const useAuth = (): AuthState => {
     const context = useContext(AuthContext);
     if (!context) {

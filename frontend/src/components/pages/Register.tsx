@@ -51,7 +51,6 @@ const Register: React.FC = () => {
         setFormData({ ...formData, [name]: sanitizedValue });
     };
 
-
     /**
      * Handles form submission, validates data, and communicates with the backend.
      * 
@@ -79,8 +78,6 @@ const Register: React.FC = () => {
             });
 
             const rawResponse = await response.json();
-            console.log('Raw Response:', rawResponse);
-
             if (response.ok) {
                 // Success (status 200 - 299)
                 setMessage({ text: REGISTER_USER_SUCCESS, type: 'success' });

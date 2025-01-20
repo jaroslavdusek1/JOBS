@@ -6,7 +6,7 @@ import {
     ERROR_INVALID_EMAIL,
     ERROR_PASSWORD_MIN_LENGTH,
     ERROR_PASSWORDS_DO_NOT_MATCH,
-} from '../constants/errorMessages';
+} from '../constants/constants';
 
 /**
  * Sanitizes input by allowing only specific characters.
