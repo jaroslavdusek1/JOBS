@@ -1,3 +1,13 @@
+import {
+    ERROR_NAME_REQUIRED,
+    EMAIL_REGEX_VALIDATION,
+    ERROR_SURNAME_REQUIRED,
+    ERROR_USERNAME_REQUIRED,
+    ERROR_INVALID_EMAIL,
+    ERROR_PASSWORD_MIN_LENGTH,
+    ERROR_PASSWORDS_DO_NOT_MATCH,
+} from '../constants/errorMessages';
+
 /**
  * Sanitizes input by allowing only specific characters.
  * @param input - The input string to sanitize.
@@ -23,7 +33,7 @@ export const sanitizeInput = (input: string, allowSpecialChars = false): string 
  * @returns {boolean} True if the email is valid, otherwise false.
  */
 export const isValidEmail = (email: string): boolean => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = EMAIL_REGEX_VALIDATION;
     return emailRegex.test(email);
 };
 
@@ -49,27 +59,27 @@ export const validateForm = (formData: Record<string, string>): { valid: boolean
     const errors: Record<string, string> = {};
 
     if (!formData.name) {
-        errors.name = 'Name is required';
+        errors.name = ERROR_NAME_REQUIRED;
     }
 
     if (!formData.surname) {
-        errors.surname = 'Surname is required';
+        errors.surname = ERROR_SURNAME_REQUIRED;
     }
 
     if (!formData.username) {
-        errors.username = 'Username is required';
+        errors.username = ERROR_USERNAME_REQUIRED;
     }
 
     if (!formData.email || !isValidEmail(formData.email)) {
-        errors.email = 'Invalid email address';
+        errors.email = ERROR_INVALID_EMAIL;
     }
 
     if (!formData.password || !isValidPassword(formData.password)) {
-        errors.password = 'Password must be at least 6 characters';
+        errors.password = ERROR_PASSWORD_MIN_LENGTH;
     }
 
     if (formData.password !== formData.password_confirmation) {
-        errors.password_confirmation = 'Passwords do not match';
+        errors.password_confirmation = ERROR_PASSWORDS_DO_NOT_MATCH;
     }
 
     return {
