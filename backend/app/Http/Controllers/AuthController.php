@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+// use App\Models\User;
 use App\Services\AuthService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
@@ -60,24 +61,15 @@ class AuthController extends Controller
                 'password' => 'required|string',
             ]);
 
-            \Log::info('Validated data:', $validated);
+            $response = $this->authService->login($validated);
 
-            // Get user by email
-            $user = User::where('email', $validated['email'])->first();
-
-            if (!$user || !\Hash::check($validated['password'], $user->password)) {
-                return response()->json(['error' => 'Invalid credentials'], 401);
-            }
-
-            // Create token
-            $token = $user->createToken('auth_token')->plainTextToken;
-
-            \Log::info('Generated token:', ['token' => $token]);
-
-            return response()->json(['message' => 'Login successful', 'token' => $token], 200);
+            return response()->json([
+                'message' => 'Login successful',
+                'token' => $response['token'], // Include token
+            ], Response::HTTP_OK)->withCookie($response['cookie']);
         } catch (\Throwable $e) {
             \Log::error('Login error:', ['error' => $e->getMessage()]);
-            return response()->json(['error' => 'Server error'], 500);
+            return response()->json(['error' => $e->getMessage()], $e->getCode() ?: 500);
         }
     }
 
@@ -86,10 +78,14 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function logout()
+    public function logout(Request $request)
     {
-        $this->authService->logout();
-
-        return response()->json(['message' => 'Logout successful'], 200);
+        try {
+            $this->authService->logout($request);
+            return response()->json(['message' => 'Logout successful'], 200);
+        } catch (\Throwable $e) {
+            \Log::error('Logout error:', ['error' => $e->getMessage()]);
+            return response()->json(['error' => 'Server error'], 500);
+        }
     }
 }
