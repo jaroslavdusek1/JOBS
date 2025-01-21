@@ -65,7 +65,8 @@ const Login: React.FC = () => {
                 setPassword('');
 
                 // Navigate to home/dashboard
-                setTimeout(() => navigate(ROUTE_HOME), 2000);
+                // setTimeout(() => navigate(ROUTE_HOME), 2000);
+                navigate(ROUTE_HOME);
             } else {
                 setMessage({ text: data.error || LOGIN_FAILED, type: 'error' });
             }
