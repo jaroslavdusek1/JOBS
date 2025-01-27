@@ -161,12 +161,23 @@ On macOS, Docker Desktop needs to be launched manually. Use this command to chec
 docker --version
 ```
 
-3. After confirming Docker is running, navigate to the directory containing your docker-compose.yml (root /) file and run the application (macOS && linux):
+3. This project requires Node.js v16 (or newer). You can verify your installed version by running:
+```bash
+node --version
+```
+
+or download NVM (node package manager) and change the current version with cmnd:
+```bash
+nvm use <VERSION>
+```
+
+
+4. After confirming Docker is running, navigate to the directory containing your docker-compose.yml (root /) file and run the application (macOS && linux):
 ```bash
 docker-compose up --build
 ```
 
-4. After the build is complete, you can run:
+5. After the build is complete, you can run:
 ```bash
 docker-compose up -d
 ```
