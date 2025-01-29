@@ -3,6 +3,8 @@ This SPA ad management application, built with Laravel (PHP) and React (TypeScri
 
 The backend ensures robust security with features like CORS, sanitization, validation, CSRF protection, and token-based authentication.
 
+vid: https://www.youtube.com/watch?v=e2M5p7jGpPw
+
 ### Build on
 Build on MacOS Sequoia 15.0.1
 
