@@ -185,7 +185,7 @@ docker-compose up -d
 The application will start and be accessible at:
 
 Frontend: [http://localhost:3000](http://localhost:3000)  
-Backend: [http://localhost:3000](http://localhost:8000)  
+Backend: [http://localhost:8000](http://localhost:8000)  
 Swagger API Docs: [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
 
 ### Verify a running application via netstat:
